@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # ─── deps: all dependencies, cached by lockfile ──────────────────────────────
-FROM node:24-alpine AS deps
+FROM node:26-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json .npmrc ./
 RUN --mount=type=cache,target=/root/.npm npm ci --ignore-scripts --no-audit --no-fund
@@ -13,13 +13,13 @@ COPY src ./src
 RUN npm run build
 
 # ─── prod-deps: runtime dependencies only ────────────────────────────────────
-FROM node:24-alpine AS prod-deps
+FROM node:26-alpine AS prod-deps
 WORKDIR /app
 COPY package.json package-lock.json .npmrc ./
 RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev --ignore-scripts --no-audit --no-fund
 
 # ─── runtime: minimal image, non-root user ───────────────────────────────────
-FROM node:24-alpine AS runtime
+FROM node:26-alpine AS runtime
 ENV NODE_ENV=production
 WORKDIR /app
 
