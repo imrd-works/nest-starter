@@ -1,0 +1,53 @@
+# Local development infrastructure: `npm run db:up`
+# The full stack (API in a container) is opt-in: `docker compose --profile app up --build`
+name: nest-starter
+
+services:
+  postgres:
+    # Keep the major version in sync with tests (test/setup/global-setup.ts) and production.
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      # Override when 5432 is taken by another project: POSTGRES_PORT=55432 npm run db:up
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      # PostgreSQL 18+ images keep data under /var/lib/postgresql/<major>/…
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U app -d app']
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    profiles: [app]
+    image: nest-starter:local
+    build: .
+    command: ['node', 'dist/app/migrate.js']
+    environment:
+      DATABASE_URL: postgres://app:app@postgres:5432/app
+      JWT_SECRET: local-docker-secret-change-me-0123456789
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api:
+    profiles: [app]
+    image: nest-starter:local
+    build: .
+    environment:
+      DATABASE_URL: postgres://app:app@postgres:5432/app
+      JWT_SECRET: local-docker-secret-change-me-0123456789
+      CORS_ORIGINS: http://localhost:5173
+      LOG_LEVEL: info
+    ports:
+      - '${API_PORT:-3000}:3000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  postgres-data:

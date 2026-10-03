@@ -1,0 +1,38 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      nestjs:
+        patterns: ['@nestjs/*']
+      lint:
+        patterns: ['eslint*', '@eslint*', 'typescript-eslint', 'prettier']
+      test:
+        patterns: ['vitest', '@vitest/*', 'testcontainers', '@testcontainers/*']
+      database:
+        patterns: ['drizzle-*', 'pg', '@types/pg']
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: build
+      include: scope
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+      include: scope

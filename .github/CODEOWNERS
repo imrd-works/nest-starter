@@ -1,0 +1,5 @@
+# Every PR needs a review from a code owner (enable "Require review from Code Owners" in rulesets).
+# Replace with your GitHub team or usernames, e.g. `* @my-org/frontend`.
+# *                     @your-org/frontend
+# /eslint.config.js     @your-org/frontend-leads
+# /.github/             @your-org/frontend-leads
