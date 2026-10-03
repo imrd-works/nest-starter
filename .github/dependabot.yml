@@ -9,6 +9,13 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+    ignore:
+      # typescript-eslint supports TypeScript < 6.1 only. Remove once it supports TS 7.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+      # Node majors follow the LTS schedule (.nvmrc + Dockerfile), updated by hand.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
     groups:
       nestjs:
         patterns: ['@nestjs/*']
@@ -25,6 +32,11 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # Production runs on Node LTS only. A new major is adopted by hand once it becomes
+      # LTS (Node 26 → late October 2026), together with .nvmrc and engines.node.
+      - dependency-name: node
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: build
       include: scope
