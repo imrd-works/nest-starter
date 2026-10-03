@@ -114,7 +114,24 @@ docker run -d -p 3000:3000 --env-file .env.production nest-starter              
 - Приложение корректно завершается по `SIGTERM`: закрывает соединения и пул БД.
 - Rate limit хранится в памяти процесса. При нескольких репликах подключите общее
   хранилище для `@nestjs/throttler` (например, Redis).
-- Весь стек локально: `docker compose --profile app up --build`.
+- Весь стек локально: `npm run stack:up` (PostgreSQL → миграции → API), остановить —
+  `npm run stack:down`.
+
+### Имена в Docker
+
+Всё, что создаёт проект, называется с префиксом `nest-starter`, поэтому в Docker
+Desktop сразу понятно, что к чему относится:
+
+| Что                     | Имя                                                                                             |
+| ----------------------- | ----------------------------------------------------------------------------------------------- |
+| Группа (compose-проект) | `nest-starter`                                                                                  |
+| Контейнеры              | `nest-starter-postgres`, `nest-starter-migrate`, `nest-starter-api`                             |
+| Образ API               | `nest-starter-api:local`                                                                        |
+| Том с данными БД        | `nest-starter-postgres-data`                                                                    |
+| Сеть                    | `nest-starter-network`                                                                          |
+| БД e2e-тестов           | группа `nest-starter-e2e`, контейнер `nest-starter-e2e-postgres-<pid>` (удаляется после тестов) |
+
+Новые сервисы добавляйте по тому же правилу: `container_name: nest-starter-<роль>`.
 
 ## Бюджеты качества
 

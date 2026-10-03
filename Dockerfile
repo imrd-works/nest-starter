@@ -20,6 +20,10 @@ RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev --ignore-scripts --no
 
 # ─── runtime: minimal image, non-root user ───────────────────────────────────
 FROM node:24-alpine AS runtime
+LABEL org.opencontainers.image.title="nest-starter-api" \
+      org.opencontainers.image.description="Nest Starter REST API: NestJS 12, Fastify, PostgreSQL" \
+      org.opencontainers.image.source="https://github.com/imrd-works/nest-starter" \
+      org.opencontainers.image.licenses="UNLICENSED"
 ENV NODE_ENV=production
 WORKDIR /app
 

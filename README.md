@@ -110,25 +110,26 @@ OPENAPI_SPEC_URL=../nest-starter/openapi.json npm run generate:api
 
 ## Скрипты
 
-| Команда                     | Описание                                                                     |
-| --------------------------- | ---------------------------------------------------------------------------- |
-| `npm run dev`               | Dev-сервер с перезапуском                                                    |
-| `npm run build`             | Сборка в `dist/`                                                             |
-| `npm run start`             | Запуск собранного приложения                                                 |
-| `npm run verify`            | **Единый quality gate** (формат, линт, типы, unit, контракт, миграции, knip) |
-| `npm run test`              | Unit-тесты в watch-режиме                                                    |
-| `npm run test:e2e`          | E2E на реальном PostgreSQL (нужен Docker)                                    |
-| `npm run test:coverage`     | Все тесты + пороги покрытия (нужен Docker)                                   |
-| `npm run lint` / `format`   | Автоисправление ESLint / Prettier                                            |
-| `npm run db:up` / `db:down` | Поднять / остановить PostgreSQL в Docker                                     |
-| `npm run db:generate`       | Сгенерировать миграцию после изменения `*.table.ts`                          |
-| `npm run db:migrate`        | Применить миграции                                                           |
-| `npm run db:check`          | Проверить, что миграции соответствуют схеме                                  |
-| `npm run db:studio`         | Drizzle Studio — просмотр данных                                             |
-| `npm run db:seed`           | Создать демо-данные (не работает в production)                               |
-| `npm run openapi`           | Обновить `openapi.json`                                                      |
-| `npm run generate:module`   | Создать модуль: `npm run generate:module -- orders`                          |
-| `npm run patch/minor/major` | Поднять версию и создать git-тег                                             |
+| Команда                           | Описание                                                                     |
+| --------------------------------- | ---------------------------------------------------------------------------- |
+| `npm run dev`                     | Dev-сервер с перезапуском                                                    |
+| `npm run build`                   | Сборка в `dist/`                                                             |
+| `npm run start`                   | Запуск собранного приложения                                                 |
+| `npm run verify`                  | **Единый quality gate** (формат, линт, типы, unit, контракт, миграции, knip) |
+| `npm run test`                    | Unit-тесты в watch-режиме                                                    |
+| `npm run test:e2e`                | E2E на реальном PostgreSQL (нужен Docker)                                    |
+| `npm run test:coverage`           | Все тесты + пороги покрытия (нужен Docker)                                   |
+| `npm run lint` / `format`         | Автоисправление ESLint / Prettier                                            |
+| `npm run db:up` / `db:down`       | Поднять / остановить PostgreSQL в Docker                                     |
+| `npm run stack:up` / `stack:down` | Весь стек в Docker: PostgreSQL → миграции → API                              |
+| `npm run db:generate`             | Сгенерировать миграцию после изменения `*.table.ts`                          |
+| `npm run db:migrate`              | Применить миграции                                                           |
+| `npm run db:check`                | Проверить, что миграции соответствуют схеме                                  |
+| `npm run db:studio`               | Drizzle Studio — просмотр данных                                             |
+| `npm run db:seed`                 | Создать демо-данные (не работает в production)                               |
+| `npm run openapi`                 | Обновить `openapi.json`                                                      |
+| `npm run generate:module`         | Создать модуль: `npm run generate:module -- orders`                          |
+| `npm run patch/minor/major`       | Поднять версию и создать git-тег                                             |
 
 ## Рабочий процесс
 
