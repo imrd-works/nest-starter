@@ -1,9 +1,14 @@
-# Local development infrastructure: `npm run db:up`
-# The full stack (API in a container) is opt-in: `docker compose --profile app up --build`
+# Everything for this project lives in one Docker Desktop group: "nest-starter".
+# Every name is prefixed with the project, so it is obvious what a container/volume belongs to.
+#
+#   npm run db:up        only PostgreSQL (API runs locally via `npm run dev`)
+#   npm run stack:up     the whole stack in containers: PostgreSQL → migrations → API
+#   npm run stack:down   stop and remove the stack (data volume is kept)
 name: nest-starter
 
 services:
   postgres:
+    container_name: nest-starter-postgres
     # Keep the major version in sync with tests (test/setup/global-setup.ts) and production.
     image: postgres:18-alpine
     environment:
@@ -23,8 +28,9 @@ services:
       retries: 20
 
   migrate:
+    container_name: nest-starter-migrate
     profiles: [app]
-    image: nest-starter:local
+    image: nest-starter-api:local
     build: .
     command: ['node', 'dist/app/migrate.js']
     environment:
@@ -35,9 +41,11 @@ services:
         condition: service_healthy
 
   api:
+    container_name: nest-starter-api
     profiles: [app]
-    image: nest-starter:local
-    build: .
+    # Same image as `migrate` (built once there), never pulled from a registry.
+    image: nest-starter-api:local
+    pull_policy: never
     environment:
       DATABASE_URL: postgres://app:app@postgres:5432/app
       JWT_SECRET: local-docker-secret-change-me-0123456789
@@ -51,3 +59,8 @@ services:
 
 volumes:
   postgres-data:
+    name: nest-starter-postgres-data
+
+networks:
+  default:
+    name: nest-starter-network

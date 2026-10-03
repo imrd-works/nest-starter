@@ -16,7 +16,11 @@ let container: StartedPostgreSqlContainer | undefined
 
 /** One real PostgreSQL for the whole e2e run, migrated exactly like production. */
 export async function setup(project: TestProject): Promise<void> {
-  container = await new PostgreSqlContainer(POSTGRES_IMAGE).start()
+  container = await new PostgreSqlContainer(POSTGRES_IMAGE)
+    // Readable name + its own group in Docker Desktop instead of a random name.
+    .withName(`nest-starter-e2e-postgres-${String(process.pid)}`)
+    .withLabels({ 'com.docker.compose.project': 'nest-starter-e2e' })
+    .start()
   const databaseUrl = container.getConnectionUri()
 
   const pool = createPool(databaseUrl, 1)

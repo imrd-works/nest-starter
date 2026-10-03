@@ -26,6 +26,8 @@
     "openapi:check": "npm run build && node dist/app/openapi.js --check",
     "db:up": "docker compose up -d --wait postgres",
     "db:down": "docker compose down",
+    "stack:up": "docker compose --profile app up --build --detach --wait",
+    "stack:down": "docker compose --profile app down",
     "db:generate": "drizzle-kit generate",
     "db:check": "drizzle-kit check && node scripts/check-migrations.mjs",
     "db:migrate": "drizzle-kit migrate",
