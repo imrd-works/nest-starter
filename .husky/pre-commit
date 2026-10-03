@@ -1,0 +1,3 @@
+node scripts/check-node-version.mjs
+node scripts/check-branch-name.mjs
+npx lint-staged --concurrent false
